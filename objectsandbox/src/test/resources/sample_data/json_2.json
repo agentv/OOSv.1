@@ -1,0 +1,42 @@
+{
+  "0": {
+    "0": {
+      "farmingCapacity": 134,
+      "location": {
+        "xCoord": 0,
+        "yCoord": 0
+      },
+      "energyCapacity": 151,
+      "manufacturingCapacity": 124
+    },
+    "1": {
+      "farmingCapacity": 152,
+      "location": {
+        "xCoord": 0,
+        "yCoord": 1
+      },
+      "energyCapacity": 167,
+      "manufacturingCapacity": 103
+    }
+  },
+  "1": {
+    "0": {
+      "farmingCapacity": 134,
+      "location": {
+        "xCoord": 1,
+        "yCoord": 0
+      },
+      "energyCapacity": 151,
+      "manufacturingCapacity": 124
+    },
+    "1": {
+      "farmingCapacity": 152,
+      "location": {
+        "xCoord": 1,
+        "yCoord": 1
+      },
+      "energyCapacity": 167,
+      "manufacturingCapacity": 103
+    }
+  }
+}

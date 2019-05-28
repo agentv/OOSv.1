@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<flow name="mapWriterFlow" doc:id="df4fb6ee-b991-43d9-b266-bbf5b6adac1e" >
+		<http:listener doc:name="GET /mapwriter" doc:id="6889ebcf-d40c-4ad0-a7b9-824a42a8001e" config-ref="Localhost8081_Listener_config" path="/mapwriter" allowedMethods="GET"/>
+		<ee:transform doc:name="Generate 16 square" doc:id="71d0b259-f599-4c82-b4ab-0f3787201300" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+(0 to 15) map (r,x) -> (0 to 15) map (c,x2) -> {
+	sectorKey: c as String {format: "0000"} ++
+		r as String {format: "0000"} ++ "." ++
+		now(),
+	location: {"xCoord": r, "yCoord": c},
+	energy: (275 + randomInt(60)) as Number {class: "java.lang.Integer"},
+	farm: (125 + randomInt(45)) as Number {class: "java.lang.Integer"},
+	factory: (160 + randomInt(60)) as Number {class: "java.lang.Integer"}
+}
+	]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16.json">
+			<file:content ><![CDATA[#[output application/json
+---
+payload]]]></file:content>
+		</file:write>
+	</flow>
+</mule>

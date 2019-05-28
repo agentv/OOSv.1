@@ -1,0 +1,15 @@
+{
+	"farmingCapacity": 158,
+	"energyCapacity": 165,
+	"manufacturingCapacity": 102,
+	"location": {
+		"xCoord": 0,
+		"yCoord": 0,
+		"zCoord": 0
+	},
+	"registry": {
+		"ships": {},
+		"colonies" : {},
+		"players": {}
+	}
+}

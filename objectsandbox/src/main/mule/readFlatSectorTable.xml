@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
+	<vm:config name="Scaleup_Router_Config" doc:name="VM Config" doc:id="9ec82d75-7ab7-451c-bc59-04fa9c71a0ef" >
+		<vm:queues >
+			<vm:queue queueName="allInOne" />
+			<vm:queue queueName="sixtyFourBy" />
+			<vm:queue queueName="oneByOne" />
+		</vm:queues>
+	</vm:config>
+	<flow name="readFlatSectorTableFlow" doc:id="88fb8193-8ba8-4b2c-8ca5-51b65ae6a464" >
+		<http:listener doc:name="GET /readflat" doc:id="41fa8dee-df0b-40db-a62b-ca01ac3a64fd" config-ref="Localhost8081_Listener_config" path="/readflat" allowedMethods="GET"/>
+		<set-variable value='#[attributes.queryParams.tablename default "flattened.sectorTable.080150.json"]' doc:name="tableName" doc:id="d641545c-8898-4ec7-b4f2-5007e3d35853" variableName="tableName"/>
+		<set-variable value='#[attributes.queryParams.queue default "allInOne"]' doc:name="targetQueue" doc:id="d05c9f23-93d0-4bea-becc-3f800293824d" variableName="targetQueue"/>
+		<file:read doc:name="flattened table" doc:id="91ef0f56-fc5a-4ff9-b48e-5d8ecd993160" config-ref="fileObjectStoreConfig" path='#["staticModels/" ++ vars.tableName]'/>
+		<ee:transform doc:name="consume Stream" doc:id="205a4f48-0515-4a7c-9b01-1d9d686fabe1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<vm:publish doc:name="Publish" doc:id="17f91f63-21a9-43b6-b04e-6734784e02dc" config-ref="Scaleup_Router_Config" queueName="#[vars.targetQueue]">
+		</vm:publish>
+	</flow>
+	<flow name="writeObjectsBySixtyFour" doc:id="28823b94-8f85-404a-8429-594c78dc22f4" doc:description="This flow allows the records to be broken into groups
+of 64 and then written to the object store.
+
+It is probably an excessive use of the Batch Job, but it does
+show a performance advantage over writing all objects one-by-one">
+		<vm:listener doc:name="bySixtyFour" doc:id="09dcf218-3745-4d54-a20a-ee8b1ac3150f" config-ref="Scaleup_Router_Config" queueName="sixtyFourBy"/>
+		<logger level="INFO" doc:name="intiation" doc:id="1e26f8a8-d8c7-47c2-95fc-fdc8af460925" message='#["\n=================================" ++
+"\nSixty Four By logger begins..." ++ now() ++
+"\n================================="]' />
+		<batch:job jobName="readFlatSectorTableBatch_Job" doc:id="1cfd0cd7-8d4a-4d79-bb90-b64083201bb7" >
+			<batch:process-records >
+				<batch:step name="Batch_Step" doc:id="2fbcd185-f1ac-4507-9c1d-fed13a822481" >
+					<batch:aggregator doc:name="Batch Aggregator" doc:id="ab1f5cb9-a4ce-4d69-991d-1175a676ecc0" size="64">
+						<set-variable value='#["plot-" ++ now()]' doc:name="rollingKey" doc:id="0339fd86-9df5-4550-acda-a5424c20df8e" variableName="rollingKey"/>
+						<os:store doc:name="sectorPlot" doc:id="9187099a-1ddd-4db7-a007-cfc6b5ca26ea" key="#[vars.rollingKey]"/>
+					</batch:aggregator>
+				</batch:step>
+			</batch:process-records>
+		</batch:job>
+		<logger level="INFO" doc:name="completion" doc:id="8f6b6df0-4390-437d-bb27-5b08372427cc" message='#["\n=================================" ++
+"\nSixty Four By logger ends..." ++ now() ++
+"\n================================="]' />
+	</flow>
+	<flow name="writeObjectsOneByOne" doc:id="096be615-9404-4a47-8030-132719a1e012" >
+		<vm:listener doc:name="OneByOne" doc:id="c55f00b0-f32f-4758-91be-55a6500d1b8e" config-ref="Scaleup_Router_Config" queueName="oneByOne"/>
+		<logger level="INFO" doc:name="intiation" doc:id="4f426d0d-e9f9-4a1a-8148-155caf5b84b6" message='#["\n=================================" ++
+"\nOne by One logger begins..." ++ now() ++
+"\n================================="]'/>
+		<foreach doc:name="For Each" doc:id="466d12ee-09f3-4616-a183-df164803ab48" >
+			<os:store doc:name="Store" doc:id="3ec30d8a-f8ce-4d61-92b5-fd02eb6189de" key="#[payload.sectorkey]"/>
+		</foreach>
+		<logger level="INFO" doc:name="completion" doc:id="264107c0-bd30-44d5-9d4f-0e8962013f98" message='#["\n=================================" ++
+"\nOne by One logger ends..." ++ now() ++
+"\n================================="]' />
+	</flow>
+	<flow name="writeObjectsAllInOne" doc:id="5682cd1f-fbcf-41d6-938c-d89eaf02d0f1" >
+		<vm:listener doc:name="Listener" doc:id="d7c68029-822f-47d0-9d4f-252fd98d31d3" config-ref="Scaleup_Router_Config" queueName="allInOne"/>
+		<logger level="INFO" doc:name="Logger" doc:id="4c955745-4c22-4406-9864-c4c0c096ed4a" message='#["\n=================================" ++
+"\nAll in One logger begins..." ++ now() ++
+"\n================================="]'/>
+		<os:store doc:name="allInOneData" doc:id="589ff823-d58f-4a6e-aa35-1fa37f2da2f1" key="allInOne"/>
+		<logger level="INFO" doc:name="Logger" doc:id="37bff081-79e5-4e57-8cc7-4a20a51dfc7a" message='#["\n=================================" ++
+"\nAll in One logger ends..." ++ now() ++
+"\n================================="]'/>
+	</flow>
+</mule>

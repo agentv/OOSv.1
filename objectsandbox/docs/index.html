@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>objectsandbox · Anypoint Studio Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="assets/bootstrap.css" rel="stylesheet">
+    <link href="assets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="assets/docs.css" rel="stylesheet">
+    <link href="assets/prettify.css" rel="stylesheet">
+    <link href="assets/scroller.css" rel="stylesheet">
+
+  </head>
+
+  <body data-twttr-rendered="true" data-spy="scroll" data-target=".bs-docs-sidebar"><iframe style="display: none;" id="rufous-sandbox" name="uid13460061790411"></iframe>
+
+    <!-- Navbar
+    ================================================== -->
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand pull-left" href="#">objectsandbox</a>
+          <p class="navbar-text pull-right">
+              <a href="http://www.mulesoft.com" class="navbar-link">
+                <img src="./assets/images/mulesoft-logo-final.png" alt="MuleSoft" id="mulesoftlogo">
+              </a>
+          </p>
+          <div class="scroller scroller-left"><img src="./assets/icons/glyphicons_chevron-left.png" alt="scrollLeft"></div>
+          <div class="scroller scroller-right"><img src="./assets/icons/glyphicons_chevron-right.png" alt="scrollRight"></div>
+          <div class="wrapper">
+            <ul class="nav nav-tabs list" id="myTab">
+                                                                    <li class="active"><a href="./index.html">objectsandbox</a></li>
+                                                                                                            <li><a href="./readFlatSectorTable.html">readFlatSectorTable</a></li>
+                                                                                                              <li><a href="./mapWriter.html">mapWriter</a></li>
+                                                                </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+  <header class="jumbotron subhead" id="overview">
+    <div class="container">
+      <h1>objectsandbox</h1>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Docs nav
+    ================================================== -->
+    <div class="row">
+      <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav affix">
+          <li class="nav-header">Flows</li>
+                      <li data-toggle="collapse" data-target="#_gatherSampleSectorsSubflowNav"><a href="#_gatherSampleSectorsSubflow"><i class="icon-chevron-right"></i> gatherSampleSectorsSubflow</a>
+            </li>
+            <div id="_gatherSampleSectorsSubflowNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                                                                  <li><a href="#_gatherSampleSectorsSubflow_TryobjectFromJSON">objectFromJSON</a></li>
+                                                                                                                                                                                                                                                    </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_getObjectFromFSFlowNav"><a href="#_getObjectFromFSFlow"><i class="icon-chevron-right"></i> getObjectFromFSFlow</a>
+            </li>
+            <div id="_getObjectFromFSFlowNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                                                                                                                                                                                                </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_logSectorObjectsFlowNav"><a href="#_logSectorObjectsFlow"><i class="icon-chevron-right"></i> logSectorObjectsFlow</a>
+            </li>
+            <div id="_logSectorObjectsFlowNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                            <li><a href="#_logSectorObjectsFlowGET_coords">GET /coords</a></li>
+                                                                                <li><a href="#_logSectorObjectsFlowmodelFileName">modelFileName</a></li>
+                                                                                                                                                            <li><a href="#_logSectorObjectsFlowembedded_Loop">embedded Loop</a></li>
+                                                                                            </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_exportToKeyedMapNav"><a href="#_exportToKeyedMap"><i class="icon-chevron-right"></i> exportToKeyedMap</a>
+            </li>
+            <div id="_exportToKeyedMapNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                                                                  <li><a href="#_exportToKeyedMapmodelFileName">modelFileName</a></li>
+                                                                                                                                                                                                              </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_demonstrateScriptingFlowNav"><a href="#_demonstrateScriptingFlow"><i class="icon-chevron-right"></i> demonstrateScriptingFlow</a>
+            </li>
+            <div id="_demonstrateScriptingFlowNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                                                                  <li><a href="#_demonstrateScriptingFlowget_random_number">get random number</a></li>
+                                                                                            </ul>
+              </div>
+            </div>
+                  </ul>
+      </div>
+      <div class="span9">
+
+        <!-- Elements and their descriptions
+        ================================================== -->
+        <div style="max-height: 640px;width:100%;overflow:auto;">
+                      <img src="img/objectsandbox.png" usemap="#mFlowMap" alt="Mule Configuration Image">
+            <map name="mFlowMap">
+                                                                                          <area shape="rect" coords="45,53,139,151" href="#_gatherSampleSectorsSubflow_TryobjectFromJSON">
+                                                                                                                                                                                                                                                                                                                                                                                                                                <area shape="rect" coords="23,757,92,961" href="#_logSectorObjectsFlowGET_coords">
+                                                                <area shape="rect" coords="122,757,207,855" href="#_logSectorObjectsFlowmodelFileName">
+                                                                                                                            <area shape="rect" coords="524,757,632,855" href="#_logSectorObjectsFlowembedded_Loop">
+                                                                                                                                                      <area shape="rect" coords="140,1028,225,1126" href="#_exportToKeyedMapmodelFileName">
+                                                                                                                                                                                                                                                <area shape="rect" coords="121,1299,225,1410" href="#_demonstrateScriptingFlowget_random_number">
+                                                                                  </map>
+                  </div>
+        <!--Mule configuration xml code-->
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" href="#collapseMuleConfiguration">
+            Show Mule Configuration XML code...
+          </a>
+        </div>
+        <div id="collapseMuleConfiguration" class="accordion-body collapse" style="height: 0px;">
+          <div class="accordion-inner">
+              <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd"&gt;
+    &lt;file:config name="fileObjectStoreConfig" doc:name="File Config" doc:id="5e45b237-1b4d-4362-9c8f-f9b29e4b1bb2"&gt; 
+        &lt;file:connection workingDir="/Users/VincentLowe/src/Outlanders/objectserver/fileObjectStore"/&gt; 
+    &lt;/file:config&gt;  
+    &lt;http:listener-config name="Localhost8081_Listener_config" doc:name="HTTP Listener config" doc:id="19dea802-3f18-4a7a-b9f0-a832d50ab4f0"&gt; 
+        &lt;http:listener-connection host="0.0.0.0" port="8081"/&gt; 
+    &lt;/http:listener-config&gt;  
+    &lt;sub-flow name="gatherSampleSectorsSubflow" doc:id="957a819d-7ff1-4f30-9cab-66b50a95c563" doc:description="This subflow expects to be called in a context where the variable “modelFileName” has been set. It will fail if that doesn’t happen. Failure is always propogated."&gt; 
+        &lt;try doc:name="Try" doc:id="7f6bda5a-e6a5-4b48-a3a5-84ec1691a264"&gt; 
+            &lt;file:read doc:name="objectFromJSON" doc:id="0ace5a2e-95dd-4963-b1bc-311aeb85e3d0" config-ref="fileObjectStoreConfig" path="#[&amp;quot;staticModels/&amp;quot; ++ (vars.modelFileName as String)]" doc:description="This connector will read one or more files from the filesystem when requested
+The details are not yet established"/&gt;
+            &lt;ee:transform doc:name="Transform Message" doc:id="62aaa00c-cc8d-40b2-b895-d30008170c13"&gt; 
+                &lt;ee:message&gt; 
+                    &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+payload]]&gt;  &lt;/ee:set-payload&gt;
+                &lt;/ee:message&gt; 
+            &lt;/ee:transform&gt;  
+            &lt;error-handler&gt; 
+                &lt;on-error-propagate enableNotifications="true" logException="true" doc:name="On File Read Error Propagate" doc:id="dcd6211f-c5ce-41d5-bef2-da27f51fe300" type="FILE:ACCESS_DENIED, FILE:CONNECTIVITY, FILE:FILE_LOCK, FILE:ILLEGAL_PATH, FILE:RETRY_EXHAUSTED"&gt; 
+                    &lt;set-payload value="#[&amp;quot;File access error. Check for required file&amp;quot;]" doc:name="File Error Message" doc:id="ea4fa650-5494-4391-9b29-0a956dc0e5fc"/&gt; 
+                &lt;/on-error-propagate&gt;  
+                &lt;on-error-propagate enableNotifications="true" logException="true" doc:name="On Expression Error Propagate" doc:id="6fc699c8-ba6b-4552-b4b3-8ab2cc7e4ec8" type="EXPRESSION"&gt; 
+                    &lt;set-payload value="#[&amp;quot;Trouble converting data to JSON&amp;quot;]" doc:name="Set Payload" doc:id="01448e49-5fe0-44c9-a9e0-c05835708cd3"/&gt; 
+                &lt;/on-error-propagate&gt; 
+            &lt;/error-handler&gt; 
+        &lt;/try&gt; 
+    &lt;/sub-flow&gt;  
+    &lt;flow name="getObjectFromFSFlow" doc:id="f1d27c6a-b44c-464d-a275-89b82b323697"&gt; 
+        &lt;http:listener doc:name="GET /sector" doc:id="31f3894a-639b-474e-995f-04334e968fc4" config-ref="Localhost8081_Listener_config" path="/sector" allowedMethods="GET"/&gt;  
+        &lt;set-variable value="#[attributes.queryParams.model default &amp;quot;sectorTable.080150.json&amp;quot;]" doc:name="modelFileName" doc:id="97f5280e-eee0-4ae7-9756-8019c403600e" variableName="modelFileName"/&gt;  
+        &lt;flow-ref doc:name="get sample" doc:id="3d334ca2-8423-4742-8815-786c3f82da7a" name="gatherSampleSectorsSubflow"/&gt;  
+        &lt;ee:transform doc:name="Select One Sector" doc:id="44995f16-3ddf-4f94-b201-d127f048eb49"&gt; 
+            &lt;ee:message&gt; 
+                &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+payload]]&gt;  &lt;/ee:set-payload&gt;
+            &lt;/ee:message&gt; 
+        &lt;/ee:transform&gt;  
+        &lt;logger level="INFO" doc:name="Logger" doc:id="c9c14eae-d7f5-424d-b59c-45b1a2edc4a3" message="#[payload[&amp;quot;2&amp;quot;][&amp;quot;2&amp;quot;]]"/&gt; 
+    &lt;/flow&gt;  
+    &lt;flow name="logSectorObjectsFlow" doc:id="d50364c1-4737-45e3-80ba-deb869c5627d"&gt; 
+        &lt;http:listener doc:name="GET /coords" doc:id="09fde563-db9d-4ae0-afc6-4b8f2286dc11" doc:description="The purpose of this flow is to demonstrate different approaches to ingesting the data from the sample files." config-ref="Localhost8081_Listener_config" path="/coords" allowedMethods="GET"/&gt;  
+        &lt;set-variable value="#[attributes.queryParams.model default &amp;quot;sectorTable.080150.json&amp;quot;]" doc:name="modelFileName" doc:id="80d95fe9-2905-4778-81a0-6fcbe7695a2b" variableName="modelFileName" doc:description="This is actually a pre-requisite step before reading in the sample file"/&gt;  
+        &lt;flow-ref doc:name="get Sample Sectors from file" doc:id="2d9be284-60ad-42b2-9eab-1287a99d2f39" name="gatherSampleSectorsSubflow"/&gt;  
+        &lt;ee:transform doc:name="Simple mapObject" doc:id="dc530142-3c16-409c-9801-7bce46d01578"&gt; 
+            &lt;ee:message&gt;    &lt;/ee:message&gt;  
+            &lt;ee:variables&gt; 
+                &lt;ee:set-variable variableName="plotMap"&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+/*
+ * this script simply evaluates the payload and produces
+ * a map by running the mapObject() function
+ */
+payload mapObject (row,rownum) -&gt; {
+    (rownum): row..farmingCapacity
+}]]&gt;    &lt;/ee:set-variable&gt;
+            &lt;/ee:variables&gt; 
+        &lt;/ee:transform&gt;  
+        &lt;ee:transform doc:name="embedded Loop" doc:id="5225b9f3-b36e-4378-9d90-fab29af66307" doc:description="This shows how not to do it!"&gt; 
+            &lt;ee:message&gt;    &lt;/ee:message&gt;  
+            &lt;ee:variables&gt; 
+                &lt;ee:set-variable variableName="embeddedPlot2D"&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+/*
+ * This gives me two full rows, each with two elements,
+ * just as in the sample.
+ *
+ * The problem is that this flattens things the wrong way
+ * We need to convert map into a simple array of elements from the map values
+ *
+ *
+ */
+payload mapObject (r,rnum) -&gt; {
+    (rnum): r mapObject (c,cnum) -&gt; {
+        coord: "(" ++ c.location.xCoord ++ "," ++
+            c.location.yCoord ++ ")",
+        farms: c.farmingCapacity,
+        electric: c.energyCapacity,
+        goods: c.manufacturingCapacity
+    }
+}]]&gt;    &lt;/ee:set-variable&gt;
+            &lt;/ee:variables&gt; 
+        &lt;/ee:transform&gt;  
+        &lt;ee:transform doc:name="flatten FS model" doc:id="b75c715d-08db-4010-9c8f-5b0730ff9421"&gt; 
+            &lt;ee:message&gt; 
+                &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+import * from dw::core::Objects
+---
+/*
+ * Goodness gracious! It takes dw::core::Objects::valueSet()
+ * plus flatMap() plus flatten() to get this data unraveled.
+ *
+ */
+flatten(valueSet(payload) flatMap ([valueSet($)]))
+
+]]&gt; &lt;/ee:set-payload&gt;
+            &lt;/ee:message&gt; 
+        &lt;/ee:transform&gt; 
+    &lt;/flow&gt;  
+    &lt;flow name="exportToKeyedMap" doc:id="b0f79023-3929-40c6-b26e-35a8adb13140"&gt; 
+        &lt;http:listener doc:name="GET /keyedmap" doc:id="28676fc7-75b1-4d97-a3bf-63086acf376f" config-ref="Localhost8081_Listener_config" path="/keyedmap" allowedMethods="GET"/&gt;  
+        &lt;set-variable value="#[attributes.queryParams.model default &amp;quot;sectorTable.080150.json&amp;quot;]" doc:name="modelFileName" doc:id="c5511cc6-a444-4dca-b325-b93181808405" doc:description="This is actually a pre-requisite step before reading in the sample file" variableName="modelFileName"/&gt;  
+        &lt;flow-ref doc:name="Get Sectors from File" doc:id="673960af-084b-4216-bbfd-c6299b66afc1" name="gatherSampleSectorsSubflow"/&gt;  
+        &lt;ee:transform doc:name="flatten FS model" doc:id="ab2211e6-e3b1-496b-887e-2cf6dab32762"&gt; 
+            &lt;ee:message&gt; 
+                &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+import * from dw::core::Objects
+---
+/*
+ * Goodness gracious! It takes dw::core::Objects::valueSet()
+ * plus flatMap() plus flatten() to get this data unraveled.
+ *
+ */
+flatten(valueSet(payload) flatMap ([valueSet($)]))
+
+]]&gt; &lt;/ee:set-payload&gt;
+            &lt;/ee:message&gt; 
+        &lt;/ee:transform&gt;  
+        &lt;ee:transform doc:name="prep Objects for Obj storage" doc:id="7bdd92b1-28ff-4b72-bafa-0b10b2a2104f"&gt; 
+            &lt;ee:message&gt; 
+                &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+payload map {
+    sectorkey:
+        $.location.xCoord as String {format: "0000"} ++
+        $.location.yCoord as String {format: "0000"} ++ "." ++
+        now() as String {format: "yyyyMMdd.hh.mm.ss"},
+    farm: $.farmingCapacity,
+    energy: $.energyCapacity,
+    factory: $.manufacturingCapacity
+}]]&gt;    &lt;/ee:set-payload&gt;
+            &lt;/ee:message&gt; 
+        &lt;/ee:transform&gt;  
+        &lt;file:write doc:name="to flattened JSON file" doc:id="e849aad1-f91f-42fb-accb-e02f8cfaf453" config-ref="fileObjectStoreConfig" path="#[&amp;quot;unload/flattened.&amp;quot; ++ (vars.modelFileName as String default &amp;quot;sectormap.json&amp;quot;)]"/&gt; 
+    &lt;/flow&gt;  
+    &lt;flow name="demonstrateScriptingFlow" doc:id="f26632bb-2b86-440e-8273-fa57038fc4e3"&gt; 
+        &lt;http:listener doc:name="GET /die20" doc:id="af060744-0131-46fb-8ff3-05f39e1a116e" config-ref="Localhost8081_Listener_config" path="/die20" allowedMethods="GET"/&gt;  
+        &lt;scripting:execute doc:name="get random number" doc:id="4e1ac8c4-a8e4-4489-9a0e-cbc2e432d6af" engine="jython" target="rollOfTheDie" doc:description="The point of this flow is simply to demonstrate simple scripting, using Python code.
+
+From experimentation, it appears that the value assigned to the script variable “result” is placed in the target variable in the Mule event."&gt;
+            &lt;scripting:code&gt;import random result = random.randint(1,20) &lt;/scripting:code&gt; 
+        &lt;/scripting:execute&gt;  
+        &lt;logger level="INFO" doc:name="Logger" doc:id="d62320b0-ea96-4880-acbd-505b8732ff60" message="#[&amp;quot;\n========================================&amp;quot; ++
+&amp;quot;\nRoll of the die: &amp;quot; ++ (vars.rollOfTheDie as String) ++
+&amp;quot;\n========================================&amp;quot;]"/&gt;
+    &lt;/flow&gt; 
+&lt;/mule&gt;
+</code></pre>
+
+          </div>
+        </div>
+
+                  <section id="_gatherSampleSectorsSubflow">
+            <div class="page-header">
+                <h1>gatherSampleSectorsSubflow <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/gatherSampleSectorsSubflow.png" usemap="#flowMapgatherSampleSectorsSubflow" alt="gatherSampleSectorsSubflow image">
+                <map name="flowMapgatherSampleSectorsSubflow">
+                                                                                                  <area shape="rect" coords="38,46,132,144" href="#_gatherSampleSectorsSubflow_TryobjectFromJSON">  
+                                                                                                                                                                                                                                                    </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_gatherSampleSectorsSubflowxml_code">
+                  Show configuration XML code of the flow gatherSampleSectorsSubflow...
+                </a>
+              </div>
+              <div id="_gatherSampleSectorsSubflowxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;sub-flow name="gatherSampleSectorsSubflow" doc:id="957a819d-7ff1-4f30-9cab-66b50a95c563" doc:description="This subflow expects to be called in a context where the variable “modelFileName” has been set. It will fail if that doesn’t happen. Failure is always propogated."&gt;  
+    &lt;try doc:name="Try" doc:id="7f6bda5a-e6a5-4b48-a3a5-84ec1691a264"&gt; 
+        &lt;file:read doc:name="objectFromJSON" doc:id="0ace5a2e-95dd-4963-b1bc-311aeb85e3d0" config-ref="fileObjectStoreConfig" path="#[&amp;quot;staticModels/&amp;quot; ++ (vars.modelFileName as String)]" doc:description="This connector will read one or more files from the filesystem when requested
+The details are not yet established"&gt;   &lt;/file:read&gt;
+        &lt;ee:transform doc:name="Transform Message" doc:id="62aaa00c-cc8d-40b2-b895-d30008170c13"&gt;  
+            &lt;ee:message&gt; 
+                &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+payload]]&gt;  &lt;/ee:set-payload&gt;
+            &lt;/ee:message&gt; 
+        &lt;/ee:transform&gt;  
+        &lt;error-handler&gt; 
+            &lt;on-error-propagate enableNotifications="true" logException="true" doc:name="On File Read Error Propagate" doc:id="dcd6211f-c5ce-41d5-bef2-da27f51fe300" type="FILE:ACCESS_DENIED, FILE:CONNECTIVITY, FILE:FILE_LOCK, FILE:ILLEGAL_PATH, FILE:RETRY_EXHAUSTED"&gt; 
+                &lt;set-payload value="#[&amp;quot;File access error. Check for required file&amp;quot;]" doc:name="File Error Message" doc:id="ea4fa650-5494-4391-9b29-0a956dc0e5fc"/&gt; 
+            &lt;/on-error-propagate&gt;  
+            &lt;on-error-propagate enableNotifications="true" logException="true" doc:name="On Expression Error Propagate" doc:id="6fc699c8-ba6b-4552-b4b3-8ab2cc7e4ec8" type="EXPRESSION"&gt; 
+                &lt;set-payload value="#[&amp;quot;Trouble converting data to JSON&amp;quot;]" doc:name="Set Payload" doc:id="01448e49-5fe0-44c9-a9e0-c05835708cd3"/&gt; 
+            &lt;/on-error-propagate&gt; 
+        &lt;/error-handler&gt; 
+    &lt;/try&gt; 
+&lt;/sub-flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p><p>This subflow expects to be called in a context where the variable “modelFileName” has been set. It will fail if that doesn’t happen. Failure is always propogated.</p>
+</p>
+            </div>
+                                                                    <ul id="_gatherSampleSectorsSubflow_TryobjectFromJSON" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_gatherSampleSectorsSubflow">gatherSampleSectorsSubflow</a> </span> <span class="divider">/</span></li>
+                                  <li><span class="gray-link"><a href="#_gatherSampleSectorsSubflowTry">Try</a> </span> <span class="divider">/</span></li>
+                                <li class="active">objectFromJSON</li>
+                <img src="./assets/icons/Read.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_gatherSampleSectorsSubflow_TryobjectFromJSONxml_code">
+                      Show configuration XML code of the element objectFromJSON...
+                    </a>
+                  </div>
+                  <div id="_gatherSampleSectorsSubflow_TryobjectFromJSONxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;file:read doc:name="objectFromJSON" doc:id="0ace5a2e-95dd-4963-b1bc-311aeb85e3d0" config-ref="fileObjectStoreConfig" path="#[&amp;quot;staticModels/&amp;quot; ++ (vars.modelFileName as String)]" doc:description="This connector will read one or more files from the filesystem when requested
+The details are not yet established"&gt;   &lt;/file:read&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>This connector will read one or more files from the filesystem when requested
+The details are not yet established</p>
+</p>
+                </div>
+                                                                                                                                                                      </section>
+                  <section id="_getObjectFromFSFlow">
+            <div class="page-header">
+                <h1>getObjectFromFSFlow <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/getObjectFromFSFlow.png" usemap="#flowMapgetObjectFromFSFlow" alt="getObjectFromFSFlow image">
+                <map name="flowMapgetObjectFromFSFlow">
+                                                                                                                                                                                                                                </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_getObjectFromFSFlowxml_code">
+                  Show configuration XML code of the flow getObjectFromFSFlow...
+                </a>
+              </div>
+              <div id="_getObjectFromFSFlowxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow name="getObjectFromFSFlow" doc:id="f1d27c6a-b44c-464d-a275-89b82b323697"&gt;  
+    &lt;http:listener doc:name="GET /sector" doc:id="31f3894a-639b-474e-995f-04334e968fc4" config-ref="Localhost8081_Listener_config" path="/sector" allowedMethods="GET"&gt; &lt;/http:listener&gt;  
+    &lt;set-variable value="#[attributes.queryParams.model default &amp;quot;sectorTable.080150.json&amp;quot;]" doc:name="modelFileName" doc:id="97f5280e-eee0-4ae7-9756-8019c403600e" variableName="modelFileName"/&gt;  
+    &lt;flow-ref doc:name="get sample" doc:id="3d334ca2-8423-4742-8815-786c3f82da7a" name="gatherSampleSectorsSubflow"/&gt;  
+    &lt;ee:transform doc:name="Select One Sector" doc:id="44995f16-3ddf-4f94-b201-d127f048eb49"&gt;  
+        &lt;ee:message&gt; 
+            &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+payload]]&gt;  &lt;/ee:set-payload&gt;
+        &lt;/ee:message&gt; 
+    &lt;/ee:transform&gt;  
+    &lt;logger level="INFO" doc:name="Logger" doc:id="c9c14eae-d7f5-424d-b59c-45b1a2edc4a3" message="#[payload[&amp;quot;2&amp;quot;][&amp;quot;2&amp;quot;]]"/&gt; 
+&lt;/flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p></p>
+            </div>
+                                                                                                                                                        </section>
+                  <section id="_logSectorObjectsFlow">
+            <div class="page-header">
+                <h1>logSectorObjectsFlow <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/logSectorObjectsFlow.png" usemap="#flowMaplogSectorObjectsFlow" alt="logSectorObjectsFlow image">
+                <map name="flowMaplogSectorObjectsFlow">
+                                                            <area shape="rect" coords="16,23,85,227" href="#_logSectorObjectsFlowGET_coords">  
+                                                                                <area shape="rect" coords="115,23,200,121" href="#_logSectorObjectsFlowmodelFileName">  
+                                                                                                                                                            <area shape="rect" coords="517,23,625,121" href="#_logSectorObjectsFlowembedded_Loop">  
+                                                                                            </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_logSectorObjectsFlowxml_code">
+                  Show configuration XML code of the flow logSectorObjectsFlow...
+                </a>
+              </div>
+              <div id="_logSectorObjectsFlowxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow name="logSectorObjectsFlow" doc:id="d50364c1-4737-45e3-80ba-deb869c5627d"&gt;  
+    &lt;http:listener doc:name="GET /coords" doc:id="09fde563-db9d-4ae0-afc6-4b8f2286dc11" doc:description="The purpose of this flow is to demonstrate different approaches to ingesting the data from the sample files." config-ref="Localhost8081_Listener_config" path="/coords" allowedMethods="GET"&gt;  &lt;/http:listener&gt;  
+    &lt;set-variable value="#[attributes.queryParams.model default &amp;quot;sectorTable.080150.json&amp;quot;]" doc:name="modelFileName" doc:id="80d95fe9-2905-4778-81a0-6fcbe7695a2b" variableName="modelFileName" doc:description="This is actually a pre-requisite step before reading in the sample file"/&gt;  
+    &lt;flow-ref doc:name="get Sample Sectors from file" doc:id="2d9be284-60ad-42b2-9eab-1287a99d2f39" name="gatherSampleSectorsSubflow"/&gt;  
+    &lt;ee:transform doc:name="Simple mapObject" doc:id="dc530142-3c16-409c-9801-7bce46d01578"&gt;  
+        &lt;ee:message&gt;    &lt;/ee:message&gt;  
+        &lt;ee:variables&gt; 
+            &lt;ee:set-variable variableName="plotMap"&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+/*
+ * this script simply evaluates the payload and produces
+ * a map by running the mapObject() function
+ */
+payload mapObject (row,rownum) -&gt; {
+    (rownum): row..farmingCapacity
+}]]&gt;    &lt;/ee:set-variable&gt;
+        &lt;/ee:variables&gt; 
+    &lt;/ee:transform&gt;  
+    &lt;ee:transform doc:name="embedded Loop" doc:id="5225b9f3-b36e-4378-9d90-fab29af66307" doc:description="This shows how not to do it!"&gt;  
+        &lt;ee:message&gt;    &lt;/ee:message&gt;  
+        &lt;ee:variables&gt; 
+            &lt;ee:set-variable variableName="embeddedPlot2D"&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+/*
+ * This gives me two full rows, each with two elements,
+ * just as in the sample.
+ *
+ * The problem is that this flattens things the wrong way
+ * We need to convert map into a simple array of elements from the map values
+ *
+ *
+ */
+payload mapObject (r,rnum) -&gt; {
+    (rnum): r mapObject (c,cnum) -&gt; {
+        coord: "(" ++ c.location.xCoord ++ "," ++
+            c.location.yCoord ++ ")",
+        farms: c.farmingCapacity,
+        electric: c.energyCapacity,
+        goods: c.manufacturingCapacity
+    }
+}]]&gt;    &lt;/ee:set-variable&gt;
+        &lt;/ee:variables&gt; 
+    &lt;/ee:transform&gt;  
+    &lt;ee:transform doc:name="flatten FS model" doc:id="b75c715d-08db-4010-9c8f-5b0730ff9421"&gt;  
+        &lt;ee:message&gt; 
+            &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+import * from dw::core::Objects
+---
+/*
+ * Goodness gracious! It takes dw::core::Objects::valueSet()
+ * plus flatMap() plus flatten() to get this data unraveled.
+ *
+ */
+flatten(valueSet(payload) flatMap ([valueSet($)]))
+
+]]&gt; &lt;/ee:set-payload&gt;
+        &lt;/ee:message&gt; 
+    &lt;/ee:transform&gt; 
+&lt;/flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p></p>
+            </div>
+                                          <ul id="_logSectorObjectsFlowGET_coords" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_logSectorObjectsFlow">logSectorObjectsFlow</a> </span> <span class="divider">/</span></li>
+                                <li class="active">GET /coords</li>
+                <img src="./assets/icons/Listener.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_logSectorObjectsFlowGET_coordsxml_code">
+                      Show configuration XML code of the element GET /coords...
+                    </a>
+                  </div>
+                  <div id="_logSectorObjectsFlowGET_coordsxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;http:listener doc:name="GET /coords" doc:id="09fde563-db9d-4ae0-afc6-4b8f2286dc11" doc:description="The purpose of this flow is to demonstrate different approaches to ingesting the data from the sample files." config-ref="Localhost8081_Listener_config" path="/coords" allowedMethods="GET"&gt;  &lt;/http:listener&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>The purpose of this flow is to demonstrate different approaches to ingesting the data from the sample files.</p>
+</p>
+                </div>
+                                                        <ul id="_logSectorObjectsFlowmodelFileName" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_logSectorObjectsFlow">logSectorObjectsFlow</a> </span> <span class="divider">/</span></li>
+                                <li class="active">modelFileName</li>
+                <img src="./assets/icons/Set Variable.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_logSectorObjectsFlowmodelFileNamexml_code">
+                      Show configuration XML code of the element modelFileName...
+                    </a>
+                  </div>
+                  <div id="_logSectorObjectsFlowmodelFileNamexml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;set-variable value="#[attributes.queryParams.model default &amp;quot;sectorTable.080150.json&amp;quot;]" doc:name="modelFileName" doc:id="80d95fe9-2905-4778-81a0-6fcbe7695a2b" variableName="modelFileName" doc:description="This is actually a pre-requisite step before reading in the sample file"&gt;    &lt;/set-variable&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>This is actually a pre-requisite step before reading in the sample file</p>
+</p>
+                </div>
+                                                                                                            <ul id="_logSectorObjectsFlowembedded_Loop" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_logSectorObjectsFlow">logSectorObjectsFlow</a> </span> <span class="divider">/</span></li>
+                                <li class="active">embedded Loop</li>
+                <img src="./assets/icons/Transform Message.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_logSectorObjectsFlowembedded_Loopxml_code">
+                      Show configuration XML code of the element embedded Loop...
+                    </a>
+                  </div>
+                  <div id="_logSectorObjectsFlowembedded_Loopxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;ee:transform doc:name="embedded Loop" doc:id="5225b9f3-b36e-4378-9d90-fab29af66307" doc:description="This shows how not to do it!"&gt;  
+    &lt;ee:message&gt;    &lt;/ee:message&gt;  
+    &lt;ee:variables&gt; 
+        &lt;ee:set-variable variableName="embeddedPlot2D"&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+/*
+ * This gives me two full rows, each with two elements,
+ * just as in the sample.
+ *
+ * The problem is that this flattens things the wrong way
+ * We need to convert map into a simple array of elements from the map values
+ *
+ *
+ */
+payload mapObject (r,rnum) -&gt; {
+    (rnum): r mapObject (c,cnum) -&gt; {
+        coord: "(" ++ c.location.xCoord ++ "," ++
+            c.location.yCoord ++ ")",
+        farms: c.farmingCapacity,
+        electric: c.energyCapacity,
+        goods: c.manufacturingCapacity
+    }
+}]]&gt;    &lt;/ee:set-variable&gt;
+    &lt;/ee:variables&gt; 
+&lt;/ee:transform&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>This shows how not to do it!</p>
+</p>
+                </div>
+                                                              </section>
+                  <section id="_exportToKeyedMap">
+            <div class="page-header">
+                <h1>exportToKeyedMap <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/exportToKeyedMap.png" usemap="#flowMapexportToKeyedMap" alt="exportToKeyedMap image">
+                <map name="flowMapexportToKeyedMap">
+                                                                                                  <area shape="rect" coords="133,23,218,121" href="#_exportToKeyedMapmodelFileName">  
+                                                                                                                                                                                                              </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_exportToKeyedMapxml_code">
+                  Show configuration XML code of the flow exportToKeyedMap...
+                </a>
+              </div>
+              <div id="_exportToKeyedMapxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow name="exportToKeyedMap" doc:id="b0f79023-3929-40c6-b26e-35a8adb13140"&gt;  
+    &lt;http:listener doc:name="GET /keyedmap" doc:id="28676fc7-75b1-4d97-a3bf-63086acf376f" config-ref="Localhost8081_Listener_config" path="/keyedmap" allowedMethods="GET"&gt; &lt;/http:listener&gt;  
+    &lt;set-variable value="#[attributes.queryParams.model default &amp;quot;sectorTable.080150.json&amp;quot;]" doc:name="modelFileName" doc:id="c5511cc6-a444-4dca-b325-b93181808405" doc:description="This is actually a pre-requisite step before reading in the sample file" variableName="modelFileName"/&gt;  
+    &lt;flow-ref doc:name="Get Sectors from File" doc:id="673960af-084b-4216-bbfd-c6299b66afc1" name="gatherSampleSectorsSubflow"/&gt;  
+    &lt;ee:transform doc:name="flatten FS model" doc:id="ab2211e6-e3b1-496b-887e-2cf6dab32762"&gt;  
+        &lt;ee:message&gt; 
+            &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+import * from dw::core::Objects
+---
+/*
+ * Goodness gracious! It takes dw::core::Objects::valueSet()
+ * plus flatMap() plus flatten() to get this data unraveled.
+ *
+ */
+flatten(valueSet(payload) flatMap ([valueSet($)]))
+
+]]&gt; &lt;/ee:set-payload&gt;
+        &lt;/ee:message&gt; 
+    &lt;/ee:transform&gt;  
+    &lt;ee:transform doc:name="prep Objects for Obj storage" doc:id="7bdd92b1-28ff-4b72-bafa-0b10b2a2104f"&gt;  
+        &lt;ee:message&gt; 
+            &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+payload map {
+    sectorkey:
+        $.location.xCoord as String {format: "0000"} ++
+        $.location.yCoord as String {format: "0000"} ++ "." ++
+        now() as String {format: "yyyyMMdd.hh.mm.ss"},
+    farm: $.farmingCapacity,
+    energy: $.energyCapacity,
+    factory: $.manufacturingCapacity
+}]]&gt;    &lt;/ee:set-payload&gt;
+        &lt;/ee:message&gt; 
+    &lt;/ee:transform&gt;  
+    &lt;file:write doc:name="to flattened JSON file" doc:id="e849aad1-f91f-42fb-accb-e02f8cfaf453" config-ref="fileObjectStoreConfig" path="#[&amp;quot;unload/flattened.&amp;quot; ++ (vars.modelFileName as String default &amp;quot;sectormap.json&amp;quot;)]"&gt;    &lt;/file:write&gt; 
+&lt;/flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p></p>
+            </div>
+                                                                    <ul id="_exportToKeyedMapmodelFileName" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_exportToKeyedMap">exportToKeyedMap</a> </span> <span class="divider">/</span></li>
+                                <li class="active">modelFileName</li>
+                <img src="./assets/icons/Set Variable.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_exportToKeyedMapmodelFileNamexml_code">
+                      Show configuration XML code of the element modelFileName...
+                    </a>
+                  </div>
+                  <div id="_exportToKeyedMapmodelFileNamexml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;set-variable value="#[attributes.queryParams.model default &amp;quot;sectorTable.080150.json&amp;quot;]" doc:name="modelFileName" doc:id="c5511cc6-a444-4dca-b325-b93181808405" doc:description="This is actually a pre-requisite step before reading in the sample file" variableName="modelFileName"&gt;    &lt;/set-variable&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>This is actually a pre-requisite step before reading in the sample file</p>
+</p>
+                </div>
+                                                                                                                                            </section>
+                  <section id="_demonstrateScriptingFlow">
+            <div class="page-header">
+                <h1>demonstrateScriptingFlow <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/demonstrateScriptingFlow.png" usemap="#flowMapdemonstrateScriptingFlow" alt="demonstrateScriptingFlow image">
+                <map name="flowMapdemonstrateScriptingFlow">
+                                                                                                  <area shape="rect" coords="114,23,218,134" href="#_demonstrateScriptingFlowget_random_number">  
+                                                                                            </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_demonstrateScriptingFlowxml_code">
+                  Show configuration XML code of the flow demonstrateScriptingFlow...
+                </a>
+              </div>
+              <div id="_demonstrateScriptingFlowxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow name="demonstrateScriptingFlow" doc:id="f26632bb-2b86-440e-8273-fa57038fc4e3"&gt;  
+    &lt;http:listener doc:name="GET /die20" doc:id="af060744-0131-46fb-8ff3-05f39e1a116e" config-ref="Localhost8081_Listener_config" path="/die20" allowedMethods="GET"&gt;   &lt;/http:listener&gt;  
+    &lt;scripting:execute doc:name="get random number" doc:id="4e1ac8c4-a8e4-4489-9a0e-cbc2e432d6af" engine="jython" target="rollOfTheDie" doc:description="The point of this flow is simply to demonstrate simple scripting, using Python code.
+
+From experimentation, it appears that the value assigned to the script variable “result” is placed in the target variable in the Mule event."&gt;
+        &lt;scripting:code&gt;import random result = random.randint(1,20) &lt;/scripting:code&gt; 
+    &lt;/scripting:execute&gt;  
+    &lt;logger level="INFO" doc:name="Logger" doc:id="d62320b0-ea96-4880-acbd-505b8732ff60" message="#[&amp;quot;\n========================================&amp;quot; ++
+&amp;quot;\nRoll of the die: &amp;quot; ++ (vars.rollOfTheDie as String) ++
+&amp;quot;\n========================================&amp;quot;]"/&gt;
+&lt;/flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p></p>
+            </div>
+                                                                    <ul id="_demonstrateScriptingFlowget_random_number" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_demonstrateScriptingFlow">demonstrateScriptingFlow</a> </span> <span class="divider">/</span></li>
+                                <li class="active">get random number</li>
+                <img src="./assets/icons/Execute.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_demonstrateScriptingFlowget_random_numberxml_code">
+                      Show configuration XML code of the element get random number...
+                    </a>
+                  </div>
+                  <div id="_demonstrateScriptingFlowget_random_numberxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;scripting:execute doc:name="get random number" doc:id="4e1ac8c4-a8e4-4489-9a0e-cbc2e432d6af" engine="jython" target="rollOfTheDie" doc:description="The point of this flow is simply to demonstrate simple scripting, using Python code.
+
+From experimentation, it appears that the value assigned to the script variable “result” is placed in the target variable in the Mule event."&gt;
+    &lt;scripting:code&gt;import random result = random.randint(1,20) &lt;/scripting:code&gt; 
+&lt;/scripting:execute&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>The point of this flow is simply to demonstrate simple scripting, using Python code.</p>
+<p>From experimentation, it appears that the value assigned to the script variable “result” is placed in the target variable in the Mule event.</p>
+</p>
+                </div>
+                                                              </section>
+              </div>
+    </div>
+  </div>
+
+<!-- Footer
+    ================================================== -->
+    <footer class="footer">
+      <div class="container">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Designed and built with <a href="http://www.mulesoft.com/mule-studio/" target="_blank">Anypoint Studio</a>.</p>
+        <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>Icons from <a href="http://glyphicons.com/">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <ul class="footer-links">
+          <li><a href="http://blogs.mulesoft.org/">Read the blog</a></li>
+          <li><a href="http://www.mulesoft.org/jira/browse/">Submit issues</a></li>
+        </ul>
+      </div>
+    </footer>
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/widgets.js"></script>
+    <script src="assets/jquery.js"></script>
+    <script src="assets/prettify.js"></script>
+    <script src="assets/bootstrap-transition.js"></script>
+    <script src="assets/bootstrap-alert.js"></script>
+    <script src="assets/bootstrap-modal.js"></script>
+    <script src="assets/bootstrap-dropdown.js"></script>
+    <script src="assets/bootstrap-scrollspy.js"></script>
+    <script src="assets/bootstrap-tab.js"></script>
+    <script src="assets/bootstrap-tooltip.js"></script>
+    <script src="assets/bootstrap-popover.js"></script>
+    <script src="assets/bootstrap-button.js"></script>
+    <script src="assets/bootstrap-collapse.js"></script>
+    <script src="assets/bootstrap-carousel.js"></script>
+    <script src="assets/bootstrap-typeahead.js"></script>
+    <script src="assets/bootstrap-affix.js"></script>
+    <script src="assets/scroller.js"></script>
+    <script src="assets/application.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd">
+	<file:config name="fileObjectStoreConfig" doc:name="File Config" doc:id="5e45b237-1b4d-4362-9c8f-f9b29e4b1bb2" >
+		<file:connection workingDir="/Users/VincentLowe/src/Outlanders/objectserver/fileObjectStore" />
+	</file:config>
+	<http:listener-config name="Localhost8081_Listener_config" doc:name="HTTP Listener config" doc:id="19dea802-3f18-4a7a-b9f0-a832d50ab4f0" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<sub-flow name="gatherSampleSectorsSubflow" doc:id="957a819d-7ff1-4f30-9cab-66b50a95c563" doc:description="This subflow expects to be called in a context where the variable “modelFileName” has been set. It will fail if that doesn’t happen. Failure is always propogated.">
+		<try doc:name="Try" doc:id="7f6bda5a-e6a5-4b48-a3a5-84ec1691a264" >
+			<file:read doc:name="objectFromJSON" doc:id="0ace5a2e-95dd-4963-b1bc-311aeb85e3d0" config-ref="fileObjectStoreConfig" path='#["staticModels/" ++ (vars.modelFileName as String)]' doc:description="This connector will read one or more files from the filesystem when requested
+The details are not yet established" />
+			<ee:transform doc:name="Transform Message" doc:id="62aaa00c-cc8d-40b2-b895-d30008170c13">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On File Read Error Propagate" doc:id="dcd6211f-c5ce-41d5-bef2-da27f51fe300" type="FILE:ACCESS_DENIED, FILE:CONNECTIVITY, FILE:FILE_LOCK, FILE:ILLEGAL_PATH, FILE:RETRY_EXHAUSTED">
+					<set-payload value='#["File access error. Check for required file"]' doc:name="File Error Message" doc:id="ea4fa650-5494-4391-9b29-0a956dc0e5fc" />
+				</on-error-propagate>
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Expression Error Propagate" doc:id="6fc699c8-ba6b-4552-b4b3-8ab2cc7e4ec8" type="EXPRESSION">
+					<set-payload value='#["Trouble converting data to JSON"]' doc:name="Set Payload" doc:id="01448e49-5fe0-44c9-a9e0-c05835708cd3" />
+				</on-error-propagate>
+			</error-handler>
+		</try>
+	</sub-flow>
+	<flow name="getObjectFromFSFlow" doc:id="f1d27c6a-b44c-464d-a275-89b82b323697" >
+		<http:listener doc:name="GET /sector" doc:id="31f3894a-639b-474e-995f-04334e968fc4" config-ref="Localhost8081_Listener_config" path="/sector" allowedMethods="GET"/>
+		<set-variable value='#[attributes.queryParams.model default "sectorTable.080150.json"]' doc:name="modelFileName" doc:id="97f5280e-eee0-4ae7-9756-8019c403600e" variableName="modelFileName"/>
+		<flow-ref doc:name="get sample" doc:id="3d334ca2-8423-4742-8815-786c3f82da7a" name="gatherSampleSectorsSubflow" />
+		<ee:transform doc:name="Select One Sector" doc:id="44995f16-3ddf-4f94-b201-d127f048eb49" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="c9c14eae-d7f5-424d-b59c-45b1a2edc4a3" message='#[payload["2"]["2"]]'/>
+	</flow>
+	<flow name="logSectorObjectsFlow" doc:id="d50364c1-4737-45e3-80ba-deb869c5627d" >
+		<http:listener doc:name="GET /coords" doc:id="09fde563-db9d-4ae0-afc6-4b8f2286dc11" doc:description="The purpose of this flow is to demonstrate different approaches to ingesting the data from the sample files." config-ref="Localhost8081_Listener_config" path="/coords" allowedMethods="GET"/>
+		<set-variable value='#[attributes.queryParams.model default "sectorTable.080150.json"]' doc:name="modelFileName" doc:id="80d95fe9-2905-4778-81a0-6fcbe7695a2b" variableName="modelFileName" doc:description="This is actually a pre-requisite step before reading in the sample file"/>
+		<flow-ref doc:name="get Sample Sectors from file" doc:id="2d9be284-60ad-42b2-9eab-1287a99d2f39" name="gatherSampleSectorsSubflow"/>
+		<ee:transform doc:name="Simple mapObject" doc:id="dc530142-3c16-409c-9801-7bce46d01578" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="plotMap" ><![CDATA[%dw 2.0
+output application/json
+---
+/*
+ * this script simply evaluates the payload and produces
+ * a map by running the mapObject() function
+ */
+payload mapObject (row,rownum) -> {
+	(rownum): row..farmingCapacity
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="embedded Loop" doc:id="5225b9f3-b36e-4378-9d90-fab29af66307" doc:description="This shows how not to do it!">
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="embeddedPlot2D" ><![CDATA[%dw 2.0
+output application/json
+---
+/*
+ * This gives me two full rows, each with two elements,
+ * just as in the sample.
+ * 
+ * The problem is that this flattens things the wrong way
+ * We need to convert map into a simple array of elements from the map values
+ * 
+ * 
+ */
+payload mapObject (r,rnum) -> {
+	(rnum): r mapObject (c,cnum) -> {
+		coord: "(" ++ c.location.xCoord ++ "," ++
+			c.location.yCoord ++ ")",
+		farms: c.farmingCapacity,
+		electric: c.energyCapacity,
+		goods: c.manufacturingCapacity
+	}
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="flatten FS model" doc:id="b75c715d-08db-4010-9c8f-5b0730ff9421" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+import * from dw::core::Objects
+---
+/* 
+ * Goodness gracious! It takes dw::core::Objects::valueSet()
+ * plus flatMap() plus flatten() to get this data unraveled.
+ * 
+ */
+flatten(valueSet(payload) flatMap ([valueSet($)]))
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="exportToKeyedMap" doc:id="b0f79023-3929-40c6-b26e-35a8adb13140" >
+		<http:listener doc:name="GET /keyedmap" doc:id="28676fc7-75b1-4d97-a3bf-63086acf376f" config-ref="Localhost8081_Listener_config" path="/keyedmap" allowedMethods="GET"/>
+		<set-variable value='#[attributes.queryParams.model default "sectorTable.080150.json"]' doc:name="modelFileName" doc:id="c5511cc6-a444-4dca-b325-b93181808405" doc:description="This is actually a pre-requisite step before reading in the sample file" variableName="modelFileName" />
+		<flow-ref doc:name="Get Sectors from File" doc:id="673960af-084b-4216-bbfd-c6299b66afc1" name="gatherSampleSectorsSubflow"/>
+		<ee:transform doc:name="flatten FS model" doc:id="ab2211e6-e3b1-496b-887e-2cf6dab32762" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+import * from dw::core::Objects
+---
+/* 
+ * Goodness gracious! It takes dw::core::Objects::valueSet()
+ * plus flatMap() plus flatten() to get this data unraveled.
+ * 
+ */
+flatten(valueSet(payload) flatMap ([valueSet($)]))
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="prep Objects for Obj storage" doc:id="7bdd92b1-28ff-4b72-bafa-0b10b2a2104f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map {
+	sectorkey: 
+		$.location.xCoord as String {format: "0000"} ++
+		$.location.yCoord as String {format: "0000"} ++ "." ++
+		now() as String {format: "yyyyMMdd.hh.mm.ss"},
+	farm: $.farmingCapacity,
+	energy: $.energyCapacity,
+	factory: $.manufacturingCapacity
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="to flattened JSON file" doc:id="e849aad1-f91f-42fb-accb-e02f8cfaf453" config-ref="fileObjectStoreConfig" path='#["unload/flattened." ++ (vars.modelFileName as String default "sectormap.json")]'/>
+	</flow>
+	<flow name="demonstrateScriptingFlow" doc:id="f26632bb-2b86-440e-8273-fa57038fc4e3" >
+		<http:listener doc:name="GET /die20" doc:id="af060744-0131-46fb-8ff3-05f39e1a116e" config-ref="Localhost8081_Listener_config" path="/die20" allowedMethods="GET"/>
+		<scripting:execute doc:name="get random number" doc:id="4e1ac8c4-a8e4-4489-9a0e-cbc2e432d6af" engine="jython" target="rollOfTheDie" doc:description="The point of this flow is simply to demonstrate simple scripting, using Python code.
+
+From experimentation, it appears that the value assigned to the script variable “result” is placed in the target variable in the Mule event.">
+			<scripting:code >import random
+
+result = random.randint(1,20)</scripting:code>
+		</scripting:execute>
+		<logger level="INFO" doc:name="Logger" doc:id="d62320b0-ea96-4880-acbd-505b8732ff60" message='#["\n========================================" ++
+"\nRoll of the die: " ++ (vars.rollOfTheDie as String) ++
+"\n========================================"]'/>
+	</flow>
+</mule>

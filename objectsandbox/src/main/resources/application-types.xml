@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="sectors_json" format="json">
+      <types:shape format="weave" example="examples/sectors.json"><![CDATA[%dw 2.0
+
+type sectors_json = {|
+  "0": {|
+    "0": {|
+      farmingCapacity: Number {"typeId": "int"}, 
+      location: {|
+        xCoord: Number {"typeId": "int"}, 
+        yCoord: Number {"typeId": "int"}
+      |}, 
+      energyCapacity: Number {"typeId": "int"}, 
+      manufacturingCapacity: Number {"typeId": "int"}
+    |}, 
+    "1": {|
+      farmingCapacity: Number {"typeId": "int"}, 
+      location: {|
+        xCoord: Number {"typeId": "int"}, 
+        yCoord: Number {"typeId": "int"}
+      |}, 
+      energyCapacity: Number {"typeId": "int"}, 
+      manufacturingCapacity: Number {"typeId": "int"}
+    |}
+  |}, 
+  "1": {|
+    "0": {|
+      farmingCapacity: Number {"typeId": "int"}, 
+      location: {|
+        xCoord: Number {"typeId": "int"}, 
+        yCoord: Number {"typeId": "int"}
+      |}, 
+      energyCapacity: Number {"typeId": "int"}, 
+      manufacturingCapacity: Number {"typeId": "int"}
+    |}, 
+    "1": {|
+      farmingCapacity: Number {"typeId": "int"}, 
+      location: {|
+        xCoord: Number {"typeId": "int"}, 
+        yCoord: Number {"typeId": "int"}
+      |}, 
+      energyCapacity: Number {"typeId": "int"}, 
+      manufacturingCapacity: Number {"typeId": "int"}
+    |}
+  |}
+|} {"example": "{\"0\":{\"0\":{\"farmingCapacity\":134,\"location\":{\"xCoord\":0,\"yCoord\":0},\"energyCapacity\":151,\"manufacturingCapacity\":124},\"1\":{\"farmingCapacity\":152,\"location\":{\"xCoord\":0,\"yCoord\":1},\"energyCapacity\":167,\"manufacturingCapacity\":103}},\"1\":{\"0\":{\"farmingCapacity\":134,\"location\":{\"xCoord\":1,\"yCoord\":0},\"energyCapacity\":151,\"manufacturingCapacity\":124},\"1\":{\"farmingCapacity\":152,\"location\":{\"xCoord\":1,\"yCoord\":1},\"energyCapacity\":167,\"manufacturingCapacity\":103}}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="flatsectors_json" format="json">
+      <types:shape format="weave" example="examples/flatSectors.json"><![CDATA[%dw 2.0
+
+type flatsectors_json = Array<{|  sectorkey: String,   farm: Number {"typeId": "int"},   energy: Number {"typeId": "int"},   factory: Number {"typeId": "int"}|}> {"example": "[{\"sectorkey\":\"0000002019-05-26T13:17:53.212-07:00\",\"farm\":134,\"energy\":151,\"factory\":124},{\"sectorkey\":\"0000012019-05-26T13:17:53.212-07:00\",\"farm\":152,\"energy\":167,\"factory\":103},{\"sectorkey\":\"0000022019-05-26T13:17:53.213-07:00\",\"farm\":141,\"energy\":154,\"factory\":120}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#0ace5a2e-95dd-4963-b1bc-311aeb85e3d0">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="sectors_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#2d9be284-60ad-42b2-9eab-1287a99d2f39">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="sectors_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#dc530142-3c16-409c-9801-7bce46d01578"/>
+  <types:enrichment select="#5225b9f3-b36e-4378-9d90-fab29af66307"/>
+  <types:enrichment select="#673960af-084b-4216-bbfd-c6299b66afc1">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="sectors_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#91ef0f56-fc5a-4ff9-b48e-5d8ecd993160">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="flatsectors_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#d7c68029-822f-47d0-9d4f-252fd98d31d3">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="flatsectors_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#17f91f63-21a9-43b6-b04e-6734784e02dc">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="flatsectors_json"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#c55f00b0-f32f-4758-91be-55a6500d1b8e">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="flatsectors_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#09dcf218-3745-4d54-a20a-ee8b1ac3150f">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="flatsectors_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#71d0b259-f599-4c82-b4ab-0f3787201300">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="flatsectors_json"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="flatsectors_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#c519d068-6744-489d-86e3-7dae65919fe3"/>
+</types:mule>
