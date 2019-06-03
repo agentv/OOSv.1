@@ -25,10 +25,11 @@ output application/json
 	]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16.json">
+		<file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16f.json" doc:description="This currently flattens the payload
+into a single array of sector objects">
 			<file:content ><![CDATA[#[output application/json
 ---
-payload]]]></file:content>
+flatten(payload)]]]></file:content>
 		</file:write>
 	</flow>
 </mule>
