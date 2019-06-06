@@ -1,0 +1,38 @@
+[
+	{
+		"name" : "Admiral Byrd",
+		"class" : "Colony Ship",
+		"movement" : 4,
+		"location": {
+		    "xCoord": 4,
+		    "yCoord": 14
+		 },
+		"fuelCapacity" : [100,0],
+		"cargoCapacity" : [100,0],
+		"foodProduction" : [100,0]
+	},
+	{
+		"name" : "Theodore Roosevelt",
+		"class" : "Colony Ship",
+		"movement" : 4,
+		"location": {
+		    "xCoord": 4,
+		    "yCoord": 14
+		 },
+		"fuelCapacity" : [100,0],
+		"cargoCapacity" : [100,0],
+		"foodProduction" : [100,0]
+	},
+	{
+		"name" : "Paul Revere",
+		"class" : "Scout Ship",
+		"movement" : 6,
+		"location": {
+		    "xCoord": 14,
+		    "yCoord": 4
+		 },
+		"fuelCapacity" : [150,0],
+		"cargoCapacity" : [50,0],
+		"foodProduction" : [100,0]
+	}
+]

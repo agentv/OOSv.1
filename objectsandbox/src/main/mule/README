@@ -16,4 +16,7 @@ time required to write objects one-by-one, all-in-one, or in groups of 64.
 Probably it will suffice to simply maintain a memory map of the game state,
 and then back the whole thing up to object store about every 3 minutes (a game phase)
 
+mapWriter.xml - this has code that can generate a single 16x16 plot with random
+values written into each sector.
+
 

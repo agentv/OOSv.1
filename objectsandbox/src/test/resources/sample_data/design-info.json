@@ -17,6 +17,9 @@
     "7bdd92b1-28ff-4b72-bafa-0b10b2a2104f": {
       "payload": "sample_data/list_json.json"
     },
-    "71d0b259-f599-4c82-b4ab-0f3787201300": {}
+    "71d0b259-f599-4c82-b4ab-0f3787201300": {},
+    "8794def3-9f5a-4760-baf6-9cf5f7e7c51e": {
+      "payload": "sample_data/list_json_1.json"
+    }
   }
 }

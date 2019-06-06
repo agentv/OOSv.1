@@ -56,6 +56,16 @@ type flatsectors_json = Array<{|  sectorkey: String,   farm: Number {"typeId": "
 
 ]]></types:shape>
     </types:type>
+    <types:type name="ships_json" format="json">
+      <types:shape format="weave" example="examples/starters.json"><![CDATA[%dw 2.0
+
+type ships_json = Array<{|  name: String,   class: String,   movement: Number {"typeId": "int"},   location: {|    xCoord: Number {"typeId": "int"},     yCoord: Number {"typeId": "int"}  |},   fuelCapacity: Array<Number {"typeId": "int"}>, 
+  cargoCapacity: Array<Number {"typeId": "int"}>, 
+  foodProduction: Array<Number {"typeId": "int"}>
+|}> {"example": "[{\"name\":\"Admiral Byrd\",\"class\":\"Colony Ship\",\"movement\":4,\"location\":{\"xCoord\":4,\"yCoord\":14},\"fuelCapacity\":[100,0],\"cargoCapacity\":[100,0],\"foodProduction\":[100,0]},{\"name\":\"Theodore Roosevelt\",\"class\":\"Colony Ship\",\"movement\":4,\"location\":{\"xCoord\":4,\"yCoord\":14},\"fuelCapacity\":[100,0],\"cargoCapacity\":[100,0],\"foodProduction\":[100,0]},{\"name\":\"Paul Revere\",\"class\":\"Scout Ship\",\"movement\":6,\"location\":{\"xCoord\":14,\"yCoord\":4},\"fuelCapacity\":[150,0],\"cargoCapacity\":[50,0],\"foodProduction\":[100,0]}]"}
+
+]]></types:shape>
+    </types:type>
   </types:catalog>
   <types:enrichment select="#0ace5a2e-95dd-4963-b1bc-311aeb85e3d0">
     <types:processor-declaration>
@@ -146,4 +156,14 @@ type flatsectors_json = Array<{|  sectorkey: String,   farm: Number {"typeId": "
     </types:processor-declaration>
   </types:enrichment>
   <types:enrichment select="#c519d068-6744-489d-86e3-7dae65919fe3"/>
+  <types:enrichment select="#635b2bf4-2d45-44f6-a81c-7257fc91d2a5"/>
+  <types:enrichment select="#8794def3-9f5a-4760-baf6-9cf5f7e7c51e">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ships_json"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>

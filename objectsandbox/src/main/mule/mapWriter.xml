@@ -6,7 +6,28 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
-	<flow name="mapWriterFlow" doc:id="df4fb6ee-b991-43d9-b266-bbf5b6adac1e" >
+	<sub-flow name="writeMap16" doc:id="e9c74ae9-3f18-4905-b190-19f822d86e8c" >
+		<ee:transform doc:name="Generate 16 square" doc:id="765f53af-e3a4-4eec-9e4b-9f7c0f62d5bc">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+(0 to 15) as Array map (r,x) -> (0 to 15) as Array map (c,x2) -> {
+	sectorKey: c as String {format: "0000"} ++
+		r as String {format: "0000"} ++ "." ++
+		now(),
+	location: {"xCoord": r, "yCoord": c},
+	energy: (275 + randomInt(60)) as Number {class: "java.lang.Integer"},
+	farm: (125 + randomInt(45)) as Number {class: "java.lang.Integer"},
+	factory: (160 + randomInt(60)) as Number {class: "java.lang.Integer"},
+	shipregistry: {},
+	colonyregistry: {}
+}
+	]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<flow name="mapWriterFlow-OG" doc:id="df4fb6ee-b991-43d9-b266-bbf5b6adac1e" >
 		<http:listener doc:name="GET /mapwriter" doc:id="6889ebcf-d40c-4ad0-a7b9-824a42a8001e" config-ref="Localhost8081_Listener_config" path="/mapwriter" allowedMethods="GET"/>
 		<ee:transform doc:name="Generate 16 square" doc:id="71d0b259-f599-4c82-b4ab-0f3787201300" >
 			<ee:message >
@@ -27,6 +48,47 @@ output application/json
 		</ee:transform>
 		<file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16f.json" doc:description="This currently flattens the payload
 into a single array of sector objects">
+			<file:content ><![CDATA[#[output application/json
+---
+flatten(payload)]]]></file:content>
+		</file:write>
+	</flow>
+	<flow name="readShips" doc:id="8bbf45b4-3e7d-4217-b7e8-15c39027a5c4" >
+		<http:listener doc:name="GET /readmapnx" doc:id="6767d61b-0cf9-4d3b-b170-93bbe7a6e5b3" config-ref="Localhost8081_Listener_config" path="/readmapnx" allowedMethods="GET"/>
+		<ee:transform doc:name="read in starter ship objects" doc:id="635b2bf4-2d45-44f6-a81c-7257fc91d2a5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+"Objects Read in correctly"]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="starterObjects" ><![CDATA[%dw 2.0
+output application/json
+
+var starter = readUrl("classpath://examples/starters.json","application/json") as Array
+---
+starter]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="8794def3-9f5a-4760-baf6-9cf5f7e7c51e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/dw
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a0da6e54-83ef-4584-b974-0adb683b18ab" message="#[vars.starterObjects]"/>
+	</flow>
+	<flow name="mapWriterFlow-NX" doc:id="c7b07c3c-059f-4955-b99f-ac5a0eaab37b" doc:description="This flow writes out a bare map, 16 x 16
+with random values for the resources base
+
+Used to create simple sample data">
+		<http:listener doc:name="GET /mapwriternx" doc:id="69a9bdf3-0e18-4892-8acc-ec030f00e162" config-ref="Localhost8081_Listener_config" path="/mapwriternx" allowedMethods="GET" />
+		<flow-ref doc:name="writeMap16" doc:id="36ac51fd-bf13-4d40-b9f3-68a72551d21f" name="writeMap16" />
+		<file:write doc:name="prime16nx" doc:id="947e1793-f41e-4b97-9a90-f6d7e811b014" doc:description="This currently flattens the payload
+into a single array of sector objects" config-ref="fileObjectStoreConfig" path="unload/prime16nx.json" >
 			<file:content ><![CDATA[#[output application/json
 ---
 flatten(payload)]]]></file:content>
