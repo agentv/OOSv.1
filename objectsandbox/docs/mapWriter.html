@@ -42,6 +42,7 @@
                                                                     <li><a href="./index.html">objectsandbox</a></li>
                                                                                                             <li><a href="./readFlatSectorTable.html">readFlatSectorTable</a></li>
                                                                                                               <li class="active"><a href="./mapWriter.html">mapWriter</a></li>
+                                                                                                              <li><a href="./makePlots.html">makePlots</a></li>
                                                                 </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -62,12 +63,38 @@
       <div class="span3 bs-docs-sidebar">
         <ul class="nav nav-list bs-docs-sidenav affix">
           <li class="nav-header">Flows</li>
-                      <li data-toggle="collapse" data-target="#_mapWriterFlowNav"><a href="#_mapWriterFlow"><i class="icon-chevron-right"></i> mapWriterFlow</a>
+                      <li data-toggle="collapse" data-target="#_writeMap16Nav"><a href="#_writeMap16"><i class="icon-chevron-right"></i> writeMap16</a>
             </li>
-            <div id="_mapWriterFlowNav" class="accordion-body collapse" style="height: 0px;">
+            <div id="_writeMap16Nav" class="accordion-body collapse" style="height: 0px;">
               <div class="accordion-inner">
                 <ul>
-                                                                                                                                                    </ul>
+                                                                        </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_mapWriterFlow_OGNav"><a href="#_mapWriterFlow_OG"><i class="icon-chevron-right"></i> mapWriterFlow-OG</a>
+            </li>
+            <div id="_mapWriterFlow_OGNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                                                                                                        <li><a href="#_mapWriterFlow_OGWrite">Write</a></li>
+                                                      </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_readShipsNav"><a href="#_readShips"><i class="icon-chevron-right"></i> readShips</a>
+            </li>
+            <div id="_readShipsNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                                                                                                                                                          </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_mapWriterFlow_NXNav"><a href="#_mapWriterFlow_NX"><i class="icon-chevron-right"></i> mapWriterFlow-NX</a>
+            </li>
+            <div id="_mapWriterFlow_NXNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                                                                                                        <li><a href="#_mapWriterFlow_NXprime16nx">prime16nx</a></li>
+                                                      </ul>
               </div>
             </div>
                   </ul>
@@ -79,7 +106,9 @@
         <div style="max-height: 640px;width:100%;overflow:auto;">
                       <img src="img/mapWriter.png" usemap="#mFlowMap" alt="Mule Configuration Image">
             <map name="mFlowMap">
-                                                                                                                                          </map>
+                                                                                                                                                                                <area shape="rect" coords="282,185,350,268" href="#_mapWriterFlow_OGWrite">
+                                                                                                                                                                                                                                                                                                        <area shape="rect" coords="271,727,339,825" href="#_mapWriterFlow_NXprime16nx">
+                                                    </map>
                   </div>
         <!--Mule configuration xml code-->
         <div class="accordion-heading">
@@ -95,7 +124,28 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd"&gt;
-    &lt;flow name="mapWriterFlow" doc:id="df4fb6ee-b991-43d9-b266-bbf5b6adac1e"&gt; 
+    &lt;sub-flow name="writeMap16" doc:id="e9c74ae9-3f18-4905-b190-19f822d86e8c"&gt; 
+        &lt;ee:transform doc:name="Generate 16 square" doc:id="765f53af-e3a4-4eec-9e4b-9f7c0f62d5bc"&gt; 
+            &lt;ee:message&gt; 
+                &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+(0 to 15) as Array map (r,x) -&gt; (0 to 15) as Array map (c,x2) -&gt; {
+    sectorKey: c as String {format: "0000"} ++
+        r as String {format: "0000"} ++ "." ++
+        now(),
+    location: {"xCoord": r, "yCoord": c},
+    energy: (275 + randomInt(60)) as Number {class: "java.lang.Integer"},
+    farm: (125 + randomInt(45)) as Number {class: "java.lang.Integer"},
+    factory: (160 + randomInt(60)) as Number {class: "java.lang.Integer"},
+    shipregistry: {},
+    colonyregistry: {}
+}
+    ]]&gt; &lt;/ee:set-payload&gt;
+            &lt;/ee:message&gt; 
+        &lt;/ee:transform&gt; 
+    &lt;/sub-flow&gt;  
+    &lt;flow name="mapWriterFlow-OG" doc:id="df4fb6ee-b991-43d9-b266-bbf5b6adac1e"&gt; 
         &lt;http:listener doc:name="GET /mapwriter" doc:id="6889ebcf-d40c-4ad0-a7b9-824a42a8001e" config-ref="Localhost8081_Listener_config" path="/mapwriter" allowedMethods="GET"/&gt;  
         &lt;ee:transform doc:name="Generate 16 square" doc:id="71d0b259-f599-4c82-b4ab-0f3787201300"&gt; 
             &lt;ee:message&gt; 
@@ -114,10 +164,52 @@ output application/json
     ]]&gt; &lt;/ee:set-payload&gt;
             &lt;/ee:message&gt; 
         &lt;/ee:transform&gt;  
-        &lt;file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16.json"&gt; 
+        &lt;file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16f.json" doc:description="This currently flattens the payload
+into a single array of sector objects"&gt;
             &lt;file:content&gt;&lt;![CDATA[#[output application/json
 ---
-payload]]]&gt; &lt;/file:content&gt;
+flatten(payload)]]]&gt;    &lt;/file:content&gt;
+        &lt;/file:write&gt; 
+    &lt;/flow&gt;  
+    &lt;flow name="readShips" doc:id="8bbf45b4-3e7d-4217-b7e8-15c39027a5c4"&gt; 
+        &lt;http:listener doc:name="GET /readmapnx" doc:id="6767d61b-0cf9-4d3b-b170-93bbe7a6e5b3" config-ref="Localhost8081_Listener_config" path="/readmapnx" allowedMethods="GET"/&gt;  
+        &lt;ee:transform doc:name="read in starter ship objects" doc:id="635b2bf4-2d45-44f6-a81c-7257fc91d2a5"&gt; 
+            &lt;ee:message&gt; 
+                &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output text/plain
+---
+"Objects Read in correctly"]]&gt;  &lt;/ee:set-payload&gt;
+            &lt;/ee:message&gt;  
+            &lt;ee:variables&gt; 
+                &lt;ee:set-variable variableName="starterObjects"&gt;&lt;![CDATA[%dw 2.0
+output application/json
+
+var starter = readUrl("classpath://examples/starters.json","application/json") as Array
+---
+starter]]&gt;  &lt;/ee:set-variable&gt;
+            &lt;/ee:variables&gt; 
+        &lt;/ee:transform&gt;  
+        &lt;ee:transform doc:name="Transform Message" doc:id="8794def3-9f5a-4760-baf6-9cf5f7e7c51e"&gt; 
+            &lt;ee:message&gt; 
+                &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/dw
+---
+payload]]&gt;  &lt;/ee:set-payload&gt;
+            &lt;/ee:message&gt; 
+        &lt;/ee:transform&gt;  
+        &lt;logger level="INFO" doc:name="Logger" doc:id="a0da6e54-83ef-4584-b974-0adb683b18ab" message="#[vars.starterObjects]"/&gt; 
+    &lt;/flow&gt;  
+    &lt;flow name="mapWriterFlow-NX" doc:id="c7b07c3c-059f-4955-b99f-ac5a0eaab37b" doc:description="This flow writes out a bare map, 16 x 16
+with random values for the resources base
+
+Used to create simple sample data"&gt;
+        &lt;http:listener doc:name="GET /mapwriternx" doc:id="69a9bdf3-0e18-4892-8acc-ec030f00e162" config-ref="Localhost8081_Listener_config" path="/mapwriternx" allowedMethods="GET"/&gt;  
+        &lt;flow-ref doc:name="writeMap16" doc:id="36ac51fd-bf13-4d40-b9f3-68a72551d21f" name="writeMap16"/&gt;  
+        &lt;file:write doc:name="prime16nx" doc:id="947e1793-f41e-4b97-9a90-f6d7e811b014" doc:description="This currently flattens the payload
+into a single array of sector objects" config-ref="fileObjectStoreConfig" path="unload/prime16nx.json"&gt;
+            &lt;file:content&gt;&lt;![CDATA[#[output application/json
+---
+flatten(payload)]]]&gt;    &lt;/file:content&gt;
         &lt;/file:write&gt; 
     &lt;/flow&gt; 
 &lt;/mule&gt;
@@ -126,26 +218,74 @@ payload]]]&gt; &lt;/file:content&gt;
           </div>
         </div>
 
-                  <section id="_mapWriterFlow">
+                  <section id="_writeMap16">
             <div class="page-header">
-                <h1>mapWriterFlow <img src="./assets/icons/flow.png"></h1>
+                <h1>writeMap16 <img src="./assets/icons/flow.png"></h1>
             </div>
             <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
-                              <img src="img/mapWriterFlow.png" usemap="#flowMapmapWriterFlow" alt="mapWriterFlow image">
-                <map name="flowMapmapWriterFlow">
-                                                                                                                                                    </map>
+                              <img src="img/writeMap16.png" usemap="#flowMapwriteMap16" alt="writeMap16 image">
+                <map name="flowMapwriteMap16">
+                                                                        </map>
                           </div>
             <div class="documentation-indented">
               <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" href="#_mapWriterFlowxml_code">
-                  Show configuration XML code of the flow mapWriterFlow...
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_writeMap16xml_code">
+                  Show configuration XML code of the flow writeMap16...
                 </a>
               </div>
-              <div id="_mapWriterFlowxml_code" class="accordion-body collapse" style="height: 0px;">
+              <div id="_writeMap16xml_code" class="accordion-body collapse" style="height: 0px;">
                 <div class="accordion-inner">
                     <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 
-&lt;flow name="mapWriterFlow" doc:id="df4fb6ee-b991-43d9-b266-bbf5b6adac1e"&gt;  
+&lt;sub-flow name="writeMap16" doc:id="e9c74ae9-3f18-4905-b190-19f822d86e8c"&gt;  
+    &lt;ee:transform doc:name="Generate 16 square" doc:id="765f53af-e3a4-4eec-9e4b-9f7c0f62d5bc"&gt;  
+        &lt;ee:message&gt; 
+            &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/json
+---
+(0 to 15) as Array map (r,x) -&gt; (0 to 15) as Array map (c,x2) -&gt; {
+    sectorKey: c as String {format: "0000"} ++
+        r as String {format: "0000"} ++ "." ++
+        now(),
+    location: {"xCoord": r, "yCoord": c},
+    energy: (275 + randomInt(60)) as Number {class: "java.lang.Integer"},
+    farm: (125 + randomInt(45)) as Number {class: "java.lang.Integer"},
+    factory: (160 + randomInt(60)) as Number {class: "java.lang.Integer"},
+    shipregistry: {},
+    colonyregistry: {}
+}
+    ]]&gt; &lt;/ee:set-payload&gt;
+        &lt;/ee:message&gt; 
+    &lt;/ee:transform&gt; 
+&lt;/sub-flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p></p>
+            </div>
+                                                </section>
+                  <section id="_mapWriterFlow_OG">
+            <div class="page-header">
+                <h1>mapWriterFlow-OG <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/mapWriterFlow_OG.png" usemap="#flowMapmapWriterFlow_OG" alt="mapWriterFlow_OG image">
+                <map name="flowMapmapWriterFlow_OG">
+                                                                                                                                        <area shape="rect" coords="275,23,343,106" href="#_mapWriterFlow_OGWrite">  
+                                                      </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_mapWriterFlow_OGxml_code">
+                  Show configuration XML code of the flow mapWriterFlow-OG...
+                </a>
+              </div>
+              <div id="_mapWriterFlow_OGxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow name="mapWriterFlow-OG" doc:id="df4fb6ee-b991-43d9-b266-bbf5b6adac1e"&gt;  
     &lt;http:listener doc:name="GET /mapwriter" doc:id="6889ebcf-d40c-4ad0-a7b9-824a42a8001e" config-ref="Localhost8081_Listener_config" path="/mapwriter" allowedMethods="GET"&gt;   &lt;/http:listener&gt;  
     &lt;ee:transform doc:name="Generate 16 square" doc:id="71d0b259-f599-4c82-b4ab-0f3787201300"&gt;  
         &lt;ee:message&gt; 
@@ -164,10 +304,11 @@ output application/json
     ]]&gt; &lt;/ee:set-payload&gt;
         &lt;/ee:message&gt; 
     &lt;/ee:transform&gt;  
-    &lt;file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16.json"&gt;  
+    &lt;file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16f.json" doc:description="This currently flattens the payload
+into a single array of sector objects"&gt;
         &lt;file:content&gt;&lt;![CDATA[#[output application/json
 ---
-payload]]]&gt; &lt;/file:content&gt;
+flatten(payload)]]]&gt;    &lt;/file:content&gt;
     &lt;/file:write&gt; 
 &lt;/flow&gt;
 </code></pre>
@@ -176,7 +317,162 @@ payload]]]&gt; &lt;/file:content&gt;
               </div>
               <p></p>
             </div>
-                                                                                                    </section>
+                                                                                              <ul id="_mapWriterFlow_OGWrite" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_mapWriterFlow_OG">mapWriterFlow-OG</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Write</li>
+                <img src="./assets/icons/Write.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_mapWriterFlow_OGWritexml_code">
+                      Show configuration XML code of the element Write...
+                    </a>
+                  </div>
+                  <div id="_mapWriterFlow_OGWritexml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;file:write doc:name="Write" doc:id="e5c8f399-9a51-4ed7-ac57-18faf66a800c" config-ref="fileObjectStoreConfig" path="unload/prime16f.json" doc:description="This currently flattens the payload
+into a single array of sector objects"&gt;
+    &lt;file:content&gt;&lt;![CDATA[#[output application/json
+---
+flatten(payload)]]]&gt;    &lt;/file:content&gt;
+&lt;/file:write&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>This currently flattens the payload
+into a single array of sector objects</p>
+</p>
+                </div>
+                                    </section>
+                  <section id="_readShips">
+            <div class="page-header">
+                <h1>readShips <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/readShips.png" usemap="#flowMapreadShips" alt="readShips image">
+                <map name="flowMapreadShips">
+                                                                                                                                                                                          </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_readShipsxml_code">
+                  Show configuration XML code of the flow readShips...
+                </a>
+              </div>
+              <div id="_readShipsxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow name="readShips" doc:id="8bbf45b4-3e7d-4217-b7e8-15c39027a5c4"&gt;  
+    &lt;http:listener doc:name="GET /readmapnx" doc:id="6767d61b-0cf9-4d3b-b170-93bbe7a6e5b3" config-ref="Localhost8081_Listener_config" path="/readmapnx" allowedMethods="GET"&gt;   &lt;/http:listener&gt;  
+    &lt;ee:transform doc:name="read in starter ship objects" doc:id="635b2bf4-2d45-44f6-a81c-7257fc91d2a5"&gt;  
+        &lt;ee:message&gt; 
+            &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output text/plain
+---
+"Objects Read in correctly"]]&gt;  &lt;/ee:set-payload&gt;
+        &lt;/ee:message&gt;  
+        &lt;ee:variables&gt; 
+            &lt;ee:set-variable variableName="starterObjects"&gt;&lt;![CDATA[%dw 2.0
+output application/json
+
+var starter = readUrl("classpath://examples/starters.json","application/json") as Array
+---
+starter]]&gt;  &lt;/ee:set-variable&gt;
+        &lt;/ee:variables&gt; 
+    &lt;/ee:transform&gt;  
+    &lt;ee:transform doc:name="Transform Message" doc:id="8794def3-9f5a-4760-baf6-9cf5f7e7c51e"&gt;  
+        &lt;ee:message&gt; 
+            &lt;ee:set-payload&gt;&lt;![CDATA[%dw 2.0
+output application/dw
+---
+payload]]&gt;  &lt;/ee:set-payload&gt;
+        &lt;/ee:message&gt; 
+    &lt;/ee:transform&gt;  
+    &lt;logger level="INFO" doc:name="Logger" doc:id="a0da6e54-83ef-4584-b974-0adb683b18ab" message="#[vars.starterObjects]"/&gt; 
+&lt;/flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p></p>
+            </div>
+                                                                                                                              </section>
+                  <section id="_mapWriterFlow_NX">
+            <div class="page-header">
+                <h1>mapWriterFlow-NX <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/mapWriterFlow_NX.png" usemap="#flowMapmapWriterFlow_NX" alt="mapWriterFlow_NX image">
+                <map name="flowMapmapWriterFlow_NX">
+                                                                                                                                        <area shape="rect" coords="264,23,332,121" href="#_mapWriterFlow_NXprime16nx">  
+                                                      </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_mapWriterFlow_NXxml_code">
+                  Show configuration XML code of the flow mapWriterFlow-NX...
+                </a>
+              </div>
+              <div id="_mapWriterFlow_NXxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow name="mapWriterFlow-NX" doc:id="c7b07c3c-059f-4955-b99f-ac5a0eaab37b" doc:description="This flow writes out a bare map, 16 x 16
+with random values for the resources base
+
+Used to create simple sample data"&gt;
+    &lt;http:listener doc:name="GET /mapwriternx" doc:id="69a9bdf3-0e18-4892-8acc-ec030f00e162" config-ref="Localhost8081_Listener_config" path="/mapwriternx" allowedMethods="GET"&gt;   &lt;/http:listener&gt;  
+    &lt;flow-ref doc:name="writeMap16" doc:id="36ac51fd-bf13-4d40-b9f3-68a72551d21f" name="writeMap16"/&gt;  
+    &lt;file:write doc:name="prime16nx" doc:id="947e1793-f41e-4b97-9a90-f6d7e811b014" doc:description="This currently flattens the payload
+into a single array of sector objects" config-ref="fileObjectStoreConfig" path="unload/prime16nx.json"&gt;
+        &lt;file:content&gt;&lt;![CDATA[#[output application/json
+---
+flatten(payload)]]]&gt;    &lt;/file:content&gt;
+    &lt;/file:write&gt; 
+&lt;/flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p><p>This flow writes out a bare map, 16 x 16
+with random values for the resources base</p>
+<p>Used to create simple sample data</p>
+</p>
+            </div>
+                                                                                              <ul id="_mapWriterFlow_NXprime16nx" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_mapWriterFlow_NX">mapWriterFlow-NX</a> </span> <span class="divider">/</span></li>
+                                <li class="active">prime16nx</li>
+                <img src="./assets/icons/Write.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_mapWriterFlow_NXprime16nxxml_code">
+                      Show configuration XML code of the element prime16nx...
+                    </a>
+                  </div>
+                  <div id="_mapWriterFlow_NXprime16nxxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;file:write doc:name="prime16nx" doc:id="947e1793-f41e-4b97-9a90-f6d7e811b014" doc:description="This currently flattens the payload
+into a single array of sector objects" config-ref="fileObjectStoreConfig" path="unload/prime16nx.json"&gt;
+    &lt;file:content&gt;&lt;![CDATA[#[output application/json
+---
+flatten(payload)]]]&gt;    &lt;/file:content&gt;
+&lt;/file:write&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>This currently flattens the payload
+into a single array of sector objects</p>
+</p>
+                </div>
+                                    </section>
               </div>
     </div>
   </div>
