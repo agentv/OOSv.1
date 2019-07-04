@@ -38,7 +38,7 @@ payload]]></ee:set-payload>
 	<flow name="getObjectFromFSFlow" doc:id="f1d27c6a-b44c-464d-a275-89b82b323697" >
 		<http:listener doc:name="GET /sector" doc:id="31f3894a-639b-474e-995f-04334e968fc4" config-ref="Localhost8081_Listener_config" path="/sector" allowedMethods="GET"/>
 		<set-variable value='#[attributes.queryParams.model default "sectorTable.080150.json"]' doc:name="modelFileName" doc:id="97f5280e-eee0-4ae7-9756-8019c403600e" variableName="modelFileName"/>
-		<flow-ref doc:name="get sample" doc:id="3d334ca2-8423-4742-8815-786c3f82da7a" name="gatherSampleSectorsSubflow" />
+		<flow-ref doc:name="gather sample sectors" doc:id="3d334ca2-8423-4742-8815-786c3f82da7a" name="gatherSampleSectorsSubflow" />
 		<ee:transform doc:name="Select One Sector" doc:id="44995f16-3ddf-4f94-b201-d127f048eb49" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -153,9 +153,9 @@ payload map {
 	</flow>
 	<flow name="demonstrateScriptingFlow" doc:id="f26632bb-2b86-440e-8273-fa57038fc4e3" >
 		<http:listener doc:name="GET /die20" doc:id="af060744-0131-46fb-8ff3-05f39e1a116e" config-ref="Localhost8081_Listener_config" path="/die20" allowedMethods="GET"/>
-		<scripting:execute doc:name="get random number" doc:id="4e1ac8c4-a8e4-4489-9a0e-cbc2e432d6af" engine="jython" target="rollOfTheDie" doc:description="The point of this flow is simply to demonstrate simple scripting, using Python code.
+		<scripting:execute doc:name="get random number" doc:id="4e1ac8c4-a8e4-4489-9a0e-cbc2e432d6af" engine="jython" doc:description="The point of this flow is simply to demonstrate simple scripting, using Python code.
 
-From experimentation, it appears that the value assigned to the script variable “result” is placed in the target variable in the Mule event.">
+From experimentation, it appears that the value assigned to the script variable “result” is placed in the target variable in the Mule event." target="rollOfTheDie">
 			<scripting:code >import random
 
 result = random.randint(1,20)</scripting:code>
