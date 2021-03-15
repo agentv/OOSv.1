@@ -1,3 +1,5 @@
+### This project is obsolete. Retained for reference purposes only. Some code here may stand out as example or anti-example. The exact nature is known only to the diner.
+
 # OOSv.1
 Outlanders Object Service (v0.2.190528)
 
